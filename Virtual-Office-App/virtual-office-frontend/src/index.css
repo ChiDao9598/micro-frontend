@@ -1,0 +1,10 @@
+@import "tailwindcss";
+
+/* Prevent scrollbars and default browser chrome from interfering with the 3D canvas */
+*, *::before, *::after { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; background: #eaeaea; }
+
+/* Custom scrollbar for chat panel */
+.scrollbar-thin::-webkit-scrollbar { width: 4px; }
+.scrollbar-thin::-webkit-scrollbar-track { background: transparent; }
+.scrollbar-thin::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); border-radius: 2px; }
