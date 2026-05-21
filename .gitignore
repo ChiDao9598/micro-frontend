@@ -1,0 +1,11 @@
+# Claude Code — local AI context files, not for version control
+CLAUDE.md
+.claude/
+node_modules/
+angular-app/angular-app/node_modules
+host-app/node_modules
+svelte-app/svelte-app/node_modules
+vue-app/vue-app/node_modules
+Virtual-Office-App/Virtual-Office-Frontend/node_modules
+Virtual-Office-App/Virtual-Office-Backend/node_modules
+dist/

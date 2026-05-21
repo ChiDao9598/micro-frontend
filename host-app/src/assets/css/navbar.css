@@ -1,0 +1,51 @@
+/* ── Navbar ── */
+.wrap-navbar {
+    position: relative;
+    width: 280px;
+    z-index: 10; /* float above full-viewport micro frontends like the 3D office */
+}
+.navbar {
+  display: flex;
+  flex-direction: column;
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+    height: 100%;
+    position: relative;
+}
+.navbar-logo img {
+  width: 100%;
+}
+
+.navbar-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-text);
+  letter-spacing: -0.02em;
+}
+
+.navbar-links {
+  display: flex;
+  list-style: none;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.navbar-link {
+  display: block;
+  padding: 0.4rem 0.85rem;
+  border-radius: 6px;
+  color: var(--color-muted);
+  text-decoration: none;
+  font-size: 0.875rem;
+  transition: color 0.15s, background 0.15s;
+}
+
+.navbar-link:hover {
+  color: var(--color-text);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.navbar-link.active {
+  color: var(--color-accent);
+  background: rgba(124, 106, 247, 0.12);
+}

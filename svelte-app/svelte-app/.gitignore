@@ -1,0 +1,5 @@
+# Claude Code — local AI context files, not for version control
+CLAUDE.md
+.claude/
+node_modules/
+dist/

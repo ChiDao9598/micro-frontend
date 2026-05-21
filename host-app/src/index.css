@@ -1,0 +1,130 @@
+:root {
+  --color-bg:       #0f0f13;
+  --color-surface:  #1a1a24;
+  --color-border:   rgba(255,255,255,0.08);
+  --color-text:     #e8e8f0;
+  --color-muted:    #888899;
+  --color-accent:   #7c6af7;
+  --color-accent-2: #4ecdc4;
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+body {
+  background: var(--color-bg);
+  color: var(--color-text);
+  min-height: 100vh;
+}
+
+/* ── Shell Layout ── */
+.app-shell {
+  display: flex;
+  min-height: 100vh;
+}
+
+.app-content {
+  flex: 1;
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+
+
+/* ── Home Page ── */
+.home-page {
+  padding: 3rem 0;
+}
+
+.home-page h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  margin-bottom: 1rem;
+  background: linear-gradient(135deg, var(--color-text), var(--color-muted));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.home-page p {
+  font-size: 1.1rem;
+  color: var(--color-muted);
+  line-height: 1.7;
+}
+
+/* ── Framework Cards ── */
+.framework-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1rem;
+}
+
+.framework-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1.5rem;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  text-decoration: none;
+  transition: transform 0.15s, border-color 0.15s, box-shadow 0.15s;
+  cursor: pointer;
+  border-top: 3px solid var(--accent);
+}
+
+.framework-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--accent);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+}
+
+.card-name {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.card-desc {
+  font-size: 0.85rem;
+  color: var(--color-muted);
+}
+
+/* ── Mount Point ── */
+.mount-point {
+  position: relative;
+  min-height: 200px;
+}
+
+/* ── Error Banner ── */
+.error-banner {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem 1rem;
+  background: rgba(220, 38, 38, 0.12);
+  border: 1px solid rgba(220, 38, 38, 0.3);
+  border-radius: 8px;
+  color: #f87171;
+  margin: 1rem 0;
+}
+
+.error-banner button {
+  margin-left: auto;
+  padding: 0.25rem 0.75rem;
+  border: 1px solid currentColor;
+  border-radius: 4px;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  font-size: 0.8rem;
+}
+
+/* ── Loading ── */
+.loading-spinner {
+  padding: 2rem;
+  text-align: center;
+  color: var(--color-muted);
+  font-size: 0.9rem;
+}
