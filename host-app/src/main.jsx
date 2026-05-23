@@ -21,14 +21,14 @@ ReactDOM.createRoot(document.getElementById('root')).render(
 
 registerApplication({
   name: '@portfolio/react-app',
-    app: () => import(/* @vite-ignore */ `${import.meta.env.VITE_REACT_APP_URL}/src/spa.tsx`), //local
-    // app: () => import(/* @vite-ignore */ `${import.meta.env.VITE_REACT_APP_URL}/spa.js`),
+  app: () => import(/* @vite-ignore */ `${import.meta.env.VITE_REACT_APP_URL}/spa.js`),
+  // app: () => import(/* @vite-ignore */ `${import.meta.env.VITE_REACT_APP_URL}${import.meta.env.DEV ? '/src/spa.tsx' : '/spa.js'}`),
   activeWhen: ['/react-app'],
 });
 
 registerApplication({
   name: '@portfolio/vue-app',
-  app: () => import(/* @vite-ignore */ `${import.meta.env.VITE_VUE_APP_URL}/src/spa.js`),
+  app: () => import(/* @vite-ignore */ `${import.meta.env.VITE_VUE_APP_URL}${import.meta.env.DEV ? '/src/spa.js' : '/spa.js'}`),
   activeWhen: ['/vue-app'],
 });
 
@@ -40,7 +40,7 @@ registerApplication({
 
 registerApplication({
   name: '@portfolio/svelte-app',
-  app: () => import(/* @vite-ignore */ `${import.meta.env.VITE_SVELTE_APP_URL}/src/spa.js`),
+  app: () => import(/* @vite-ignore */ `${import.meta.env.VITE_SVELTE_APP_URL}${import.meta.env.DEV ? '/src/spa.js' : '/spa.js'}`),
   activeWhen: ['/svelte-app'],
 });
 
