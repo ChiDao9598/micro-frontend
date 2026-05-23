@@ -1,0 +1,73 @@
+import { Component, Input } from '@angular/core';
+
+type BadgeStatus =
+  | 'healthy' | 'warning' | 'critical' | 'offline'
+  | 'success' | 'failed' | 'in-progress' | 'pending' | 'rolled-back'
+  | 'critical' | 'high' | 'medium' | 'low' | 'info'
+  | 'active' | 'acknowledged' | 'resolved';
+
+const LABELS: Record<string, string> = {
+  healthy: 'Healthy', warning: 'Warning', critical: 'Critical', offline: 'Offline',
+  success: 'Success', failed: 'Failed', 'in-progress': 'In Progress', pending: 'Pending',
+  'rolled-back': 'Rolled Back',
+  high: 'High', medium: 'Medium', low: 'Low', info: 'Info',
+  active: 'Active', acknowledged: 'Acknowledged', resolved: 'Resolved',
+};
+
+@Component({
+  selector: 'cdo-status-badge',
+  standalone: true,
+  template: `
+    <span class="badge badge--{{ status }}">
+      <span class="badge__dot"></span>{{ label }}
+    </span>
+  `,
+  styles: [`
+    .badge {
+      display: inline-flex; align-items: center; gap: 5px;
+      padding: 2px 8px; border-radius: 999px;
+      font-size: 11px; font-weight: 600; white-space: nowrap;
+    }
+    .badge__dot { width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; }
+
+    .badge--healthy     { background:rgba(63,185,80,.12);  color:#3fb950; }
+    .badge--healthy     .badge__dot { background:#3fb950; }
+    .badge--warning     { background:rgba(210,153,34,.12); color:#d29922; }
+    .badge--warning     .badge__dot { background:#d29922; animation:cdo-pulse 1.5s infinite; }
+    .badge--critical    { background:rgba(248,81,73,.12);  color:#f85149; }
+    .badge--critical    .badge__dot { background:#f85149; animation:cdo-pulse 1s infinite; }
+    .badge--offline     { background:rgba(110,118,129,.12);color:#6e7681; }
+    .badge--offline     .badge__dot { background:#6e7681; }
+
+    .badge--success     { background:rgba(63,185,80,.12);  color:#3fb950; }
+    .badge--success     .badge__dot { background:#3fb950; }
+    .badge--failed      { background:rgba(248,81,73,.12);  color:#f85149; }
+    .badge--failed      .badge__dot { background:#f85149; }
+    .badge--in-progress { background:rgba(88,166,255,.12); color:#58a6ff; }
+    .badge--in-progress .badge__dot { background:#58a6ff; animation:cdo-pulse .8s infinite; }
+    .badge--pending     { background:rgba(139,148,158,.12);color:#8b949e; }
+    .badge--pending     .badge__dot { background:#8b949e; }
+    .badge--rolled-back { background:rgba(210,153,34,.12); color:#d29922; }
+    .badge--rolled-back .badge__dot { background:#d29922; }
+
+    .badge--high        { background:rgba(229,83,75,.1);   color:#e5534b; }
+    .badge--high        .badge__dot { background:#e5534b; }
+    .badge--medium      { background:rgba(210,153,34,.1);  color:#d29922; }
+    .badge--medium      .badge__dot { background:#d29922; }
+    .badge--low         { background:rgba(88,166,255,.1);  color:#58a6ff; }
+    .badge--low         .badge__dot { background:#58a6ff; }
+    .badge--info        { background:rgba(188,140,255,.1); color:#bc8cff; }
+    .badge--info        .badge__dot { background:#bc8cff; }
+
+    .badge--active       { background:rgba(248,81,73,.1);   color:#f85149; }
+    .badge--active       .badge__dot { background:#f85149; animation:cdo-pulse 1s infinite; }
+    .badge--acknowledged { background:rgba(210,153,34,.1);  color:#d29922; }
+    .badge--acknowledged .badge__dot { background:#d29922; }
+    .badge--resolved     { background:rgba(63,185,80,.1);   color:#3fb950; }
+    .badge--resolved     .badge__dot { background:#3fb950; }
+  `]
+})
+export class StatusBadgeComponent {
+  @Input({ required: true }) status!: BadgeStatus;
+  get label(): string { return LABELS[this.status] ?? this.status; }
+}

@@ -1,0 +1,109 @@
+import { Component, inject, OnInit, signal, computed } from '@angular/core';
+import { MockDataService } from '../../../../core/services/mock-data.service';
+import { LogEntry, LogLevel } from '../../../../shared/models';
+
+@Component({
+  selector: 'app-logs-view',
+  standalone: true,
+  template: `
+    <div class="page">
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">Logs</h1>
+          <p class="page-sub">Live stream · {{ filtered().length }} entries</p>
+        </div>
+      </div>
+
+      <div class="toolbar">
+        <div class="tab-group">
+          @for (o of levelOpts; track o.value) {
+            <button class="tab" [class.tab--active]="levelFilter() === o.value"
+                    (click)="levelFilter.set(o.value)">{{ o.label }}</button>
+          }
+        </div>
+      </div>
+
+      <div class="log-pane">
+        @for (entry of filtered(); track entry.id) {
+          <div class="log-row log-row--{{ entry.level }}">
+            <span class="log-ts">{{ fmtTime(entry.timestamp) }}</span>
+            <span class="log-level log-level--{{ entry.level }}">{{ entry.level }}</span>
+            <span class="log-svc">{{ entry.service }}</span>
+            <span class="log-msg">{{ entry.message }}</span>
+          </div>
+        } @empty {
+          <div class="empty">No log entries match the current filter.</div>
+        }
+      </div>
+    </div>
+  `,
+  styles: [`
+    .page { display:flex; flex-direction:column; gap:14px; }
+    .page-header { display:flex; align-items:flex-start; justify-content:space-between; }
+    .page-title  { font-size:20px; font-weight:700; color:var(--cdo-text); margin:0; }
+    .page-sub    { font-size:11px; color:var(--cdo-text-faint); margin:3px 0 0; }
+
+    .toolbar { display:flex; gap:10px; align-items:center; }
+    .tab-group {
+      display:flex; gap:2px; padding:3px;
+      background:var(--cdo-bg-secondary); border:1px solid var(--cdo-border); border-radius:6px;
+    }
+    .tab {
+      padding:4px 12px; border-radius:4px; border:none;
+      background:none; color:var(--cdo-text-muted);
+      font-size:12px; font-family:inherit; cursor:pointer; transition:all .12s;
+    }
+    .tab:hover { color:var(--cdo-text); }
+    .tab--active { background:var(--cdo-bg-tertiary); color:var(--cdo-text); border:1px solid var(--cdo-border); }
+
+    .log-pane {
+      background:var(--cdo-bg-secondary); border:1px solid var(--cdo-border);
+      border-radius:8px; overflow:hidden; font-family:monospace;
+    }
+    .log-row {
+      display:flex; align-items:baseline; gap:10px;
+      padding:8px 14px; border-bottom:1px solid var(--cdo-border-subtle,#21262d);
+      font-size:11px; transition:background .1s;
+    }
+    .log-row:last-child { border-bottom:none; }
+    .log-row:hover { background:var(--cdo-bg-tertiary); }
+    .log-ts  { color:var(--cdo-text-faint); flex-shrink:0; }
+    .log-level {
+      font-size:10px; font-weight:700; padding:1px 5px;
+      border-radius:3px; flex-shrink:0; width:38px; text-align:center;
+    }
+    .log-level--ERROR { background:rgba(248,81,73,.15);  color:#f85149; }
+    .log-level--WARN  { background:rgba(210,153,34,.15); color:#d29922; }
+    .log-level--INFO  { background:rgba(88,166,255,.1);  color:#58a6ff; }
+    .log-level--DEBUG { background:rgba(139,148,158,.1); color:#8b949e; }
+    .log-svc { color:var(--cdo-accent); flex-shrink:0; min-width:110px; font-size:11px; }
+    .log-msg { color:var(--cdo-text-muted); flex:1; }
+    .log-row--ERROR .log-msg { color:var(--cdo-text); }
+    .empty { text-align:center; color:var(--cdo-text-faint); padding:32px 0; font-size:13px; }
+  `]
+})
+export class LogsViewComponent implements OnInit {
+  private readonly data = inject(MockDataService);
+
+  private allLogs: LogEntry[] = [];
+  levelFilter = signal<LogLevel | 'all'>('all');
+
+  readonly levelOpts = [
+    { label: 'All',   value: 'all' as const },
+    { label: 'ERROR', value: 'ERROR' as const },
+    { label: 'WARN',  value: 'WARN' as const },
+    { label: 'INFO',  value: 'INFO' as const },
+    { label: 'DEBUG', value: 'DEBUG' as const },
+  ];
+
+  filtered = computed(() => {
+    const f = this.levelFilter();
+    return f === 'all' ? this.allLogs : this.allLogs.filter(l => l.level === f);
+  });
+
+  ngOnInit() { this.allLogs = this.data.getLogs(); }
+
+  fmtTime(d: Date): string {
+    return d.toLocaleTimeString('en-US', { hour12: false });
+  }
+}

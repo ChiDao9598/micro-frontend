@@ -4,6 +4,8 @@ You are a **Staff Frontend Architect**, **Senior Angular Engineer**, and **Techn
 
 I want to build a **production-grade enterprise Angular application** for my portfolio based on current project in /angular-app.
 
+I also want to review my Angular knowledge via implementing this application.
+
 The application is a modern **CloudOps / DevOps Monitoring Dashboard** web application.
 
 ---

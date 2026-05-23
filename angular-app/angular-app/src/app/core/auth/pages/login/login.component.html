@@ -1,0 +1,81 @@
+<div class="login-wrap">
+  <div class="login-card">
+
+    <!-- Logo / brand -->
+    <div class="brand">
+      <div class="brand-icon">
+        <svg viewBox="0 0 24 24" fill="none" width="28" height="28">
+          <path d="M3 13.5L12 3l9 10.5" stroke="#58a6ff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M5 11.5V20a1 1 0 001 1h4v-4h4v4h4a1 1 0 001-1v-8.5" stroke="#58a6ff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <span class="brand-name">CloudOps</span>
+    </div>
+
+    <h1 class="login-title">Sign in to your account</h1>
+    <p class="login-sub">Enter your credentials to access the dashboard</p>
+
+    <!-- Auth error banner -->
+    @if (error$ | async; as err) {
+      <div class="error-banner">
+        <svg viewBox="0 0 16 16" fill="currentColor" width="14" height="14">
+          <path d="M8 1a7 7 0 100 14A7 7 0 008 1zm-.75 3.75a.75.75 0 011.5 0v3.5a.75.75 0 01-1.5 0v-3.5zm.75 7a.75.75 0 110-1.5.75.75 0 010 1.5z"/>
+        </svg>
+        {{ err }}
+      </div>
+    }
+
+    <form [formGroup]="form" (ngSubmit)="submit()" novalidate class="login-form">
+
+      <!-- Email -->
+      <div class="field" [class.field--error]="fieldError('email')">
+        <label class="field-label" for="email">Email address</label>
+        <input id="email" type="email" class="field-input"
+               formControlName="email"
+               placeholder="you@company.com"
+               autocomplete="email">
+        @if (fieldError('email'); as msg) {
+          <span class="field-msg">{{ msg }}</span>
+        }
+      </div>
+
+      <!-- Password -->
+      <div class="field" [class.field--error]="fieldError('password')">
+        <label class="field-label" for="password">Password</label>
+        <div class="input-wrap">
+          <input id="password" [type]="showPassword ? 'text' : 'password'"
+                 class="field-input field-input--with-btn"
+                 formControlName="password"
+                 placeholder="••••••••"
+                 autocomplete="current-password">
+          <button type="button" class="show-btn" (click)="showPassword = !showPassword"
+                  [attr.aria-label]="showPassword ? 'Hide password' : 'Show password'">
+            @if (showPassword) {
+              <svg viewBox="0 0 16 16" fill="currentColor" width="14" height="14">
+                <path d="M.143 2.31a.75.75 0 011.047-.167l14.5 10.5a.75.75 0 11-.88 1.214l-2.248-1.628A9.3 9.3 0 018 13C3.8 13 1 9.5 1 8c0-.826.68-2.01 1.858-3.05L.31 3.357A.75.75 0 01.143 2.31zM8 5.5A2.5 2.5 0 015.5 8c0-.337.067-.658.187-.952L8.952 9.313A2.5 2.5 0 018 5.5zm0-3.5c3.9 0 6.87 3.17 7 4.965V8c0 1.5-2.8 5-7 5a9.07 9.07 0 01-2.282-.297l1.207.874A7.63 7.63 0 008 13.5C11.8 13.5 14.5 10.2 14.5 8 14.5 6.3 11.8 3 8 3a7.68 7.68 0 00-3.458.827l1.117.809A5.94 5.94 0 018 4z"/>
+              </svg>
+            } @else {
+              <svg viewBox="0 0 16 16" fill="currentColor" width="14" height="14">
+                <path d="M8 2C4.1 2 1 5.13 1 8s3.1 6 7 6 7-3.13 7-6-3.1-6-7-6zm0 10.5c-3.2 0-5.5-2.7-5.5-4.5S4.8 3.5 8 3.5s5.5 2.7 5.5 4.5-2.3 4.5-5.5 4.5zM8 5.5A2.5 2.5 0 108 10.5 2.5 2.5 0 008 5.5z"/>
+              </svg>
+            }
+          </button>
+        </div>
+        @if (fieldError('password'); as msg) {
+          <span class="field-msg">{{ msg }}</span>
+        }
+      </div>
+
+      <button type="submit" class="btn-submit" [disabled]="loading$ | async">
+        @if (loading$ | async) {
+          <span class="spinner"></span>
+          Signing in…
+        } @else {
+          Sign in
+        }
+      </button>
+
+    </form>
+
+  </div>
+</div>

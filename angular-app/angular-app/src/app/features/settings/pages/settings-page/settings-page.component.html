@@ -1,0 +1,170 @@
+<div class="page">
+
+  <!-- Header -->
+  <div class="page-hdr">
+    <h1 class="page-title">Settings</h1>
+    <p class="page-sub">User preferences and system configuration</p>
+  </div>
+
+  @if (theme$ | async; as theme) {
+  @if (notifications$ | async; as notif) {
+  @if (thresholds$ | async; as thr) {
+
+  <!-- ── Appearance ──────────────────────────── -->
+  <section class="section">
+    <div class="section-hdr">
+      <h2 class="section-title">Appearance</h2>
+      <p class="section-sub">Choose how the dashboard looks</p>
+    </div>
+
+    <div class="theme-cards">
+      <button class="theme-card" [class.theme-card--active]="theme === 'dark'" (click)="setTheme('dark')">
+        <div class="theme-preview theme-preview--dark">
+          <div class="tp-sidebar"></div>
+          <div class="tp-body">
+            <div class="tp-bar"></div>
+            <div class="tp-bar tp-bar--sm"></div>
+          </div>
+        </div>
+        <span class="theme-label">Dark</span>
+        @if (theme === 'dark') {
+          <span class="theme-badge">Active</span>
+        }
+      </button>
+
+      <button class="theme-card" [class.theme-card--active]="theme === 'light'" (click)="setTheme('light')">
+        <div class="theme-preview theme-preview--light">
+          <div class="tp-sidebar tp-sidebar--light"></div>
+          <div class="tp-body">
+            <div class="tp-bar tp-bar--light"></div>
+            <div class="tp-bar tp-bar--sm tp-bar--light"></div>
+          </div>
+        </div>
+        <span class="theme-label">Light</span>
+        @if (theme === 'light') {
+          <span class="theme-badge">Active</span>
+        }
+      </button>
+    </div>
+  </section>
+
+  <!-- ── Notifications ───────────────────────── -->
+  <section class="section">
+    <div class="section-hdr">
+      <h2 class="section-title">Notifications</h2>
+      <p class="section-sub">Control how and when you receive alerts</p>
+    </div>
+
+    <div class="panel">
+      <div class="setting-row">
+        <div class="setting-info">
+          <span class="setting-label">Email notifications</span>
+          <span class="setting-desc">Receive alert digests to your registered email</span>
+        </div>
+        <button class="toggle" [class.toggle--on]="notif.emailEnabled"
+                (click)="setNotification('emailEnabled', !notif.emailEnabled)"
+                [attr.aria-checked]="notif.emailEnabled" role="switch">
+          <span class="toggle-thumb"></span>
+        </button>
+      </div>
+
+      <div class="setting-row">
+        <div class="setting-info">
+          <span class="setting-label">In-app notifications</span>
+          <span class="setting-desc">Show alert banner and badge inside the dashboard</span>
+        </div>
+        <button class="toggle" [class.toggle--on]="notif.inAppEnabled"
+                (click)="setNotification('inAppEnabled', !notif.inAppEnabled)"
+                [attr.aria-checked]="notif.inAppEnabled" role="switch">
+          <span class="toggle-thumb"></span>
+        </button>
+      </div>
+
+      <div class="setting-row">
+        <div class="setting-info">
+          <span class="setting-label">Minimum severity</span>
+          <span class="setting-desc">Only notify for alerts at or above this level</span>
+        </div>
+        <select class="select"
+                [ngModel]="notif.minSeverity"
+                (ngModelChange)="setNotification('minSeverity', $event)">
+          @for (opt of severityOptions; track opt.value) {
+            <option [value]="opt.value">{{ opt.label }}</option>
+          }
+        </select>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Alert Thresholds ────────────────────── -->
+  <section class="section">
+    <div class="section-hdr">
+      <h2 class="section-title">Alert Thresholds</h2>
+      <p class="section-sub">Trigger alerts when metrics exceed these values</p>
+    </div>
+
+    <div class="panel">
+
+      <div class="threshold-row">
+        <div class="threshold-info">
+          <span class="threshold-label">CPU usage</span>
+          <span class="threshold-val">{{ thr.cpu }}%</span>
+        </div>
+        <input type="range" class="slider" min="50" max="99" step="1"
+               [ngModel]="thr.cpu"
+               (ngModelChange)="setThreshold('cpu', +$event)">
+        <div class="slider-bounds"><span>50%</span><span>99%</span></div>
+      </div>
+
+      <div class="threshold-row">
+        <div class="threshold-info">
+          <span class="threshold-label">Memory usage</span>
+          <span class="threshold-val">{{ thr.memory }}%</span>
+        </div>
+        <input type="range" class="slider" min="50" max="99" step="1"
+               [ngModel]="thr.memory"
+               (ngModelChange)="setThreshold('memory', +$event)">
+        <div class="slider-bounds"><span>50%</span><span>99%</span></div>
+      </div>
+
+      <div class="threshold-row">
+        <div class="threshold-info">
+          <span class="threshold-label">Disk usage</span>
+          <span class="threshold-val">{{ thr.disk }}%</span>
+        </div>
+        <input type="range" class="slider" min="50" max="99" step="1"
+               [ngModel]="thr.disk"
+               (ngModelChange)="setThreshold('disk', +$event)">
+        <div class="slider-bounds"><span>50%</span><span>99%</span></div>
+      </div>
+
+      <div class="threshold-row">
+        <div class="threshold-info">
+          <span class="threshold-label">Response time</span>
+          <span class="threshold-val">{{ thr.responseTime }} ms</span>
+        </div>
+        <input type="range" class="slider" min="200" max="5000" step="100"
+               [ngModel]="thr.responseTime"
+               (ngModelChange)="setThreshold('responseTime', +$event)">
+        <div class="slider-bounds"><span>200 ms</span><span>5 000 ms</span></div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── Reset ───────────────────────────────── -->
+  <section class="section section--reset">
+    <div class="panel panel--danger">
+      <div class="setting-row">
+        <div class="setting-info">
+          <span class="setting-label">Reset to defaults</span>
+          <span class="setting-desc">Restore all settings to their original values</span>
+        </div>
+        <button class="btn-danger" (click)="reset()">Reset</button>
+      </div>
+    </div>
+  </section>
+
+  }}}
+
+</div>

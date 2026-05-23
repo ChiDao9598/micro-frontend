@@ -1,0 +1,45 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── CSS Custom Properties ───────────────────── */
+:root {
+  --cdo-bg-primary:   #0d1117;
+  --cdo-bg-secondary: #161b22;
+  --cdo-bg-tertiary:  #21262d;
+  --cdo-border:       #30363d;
+  --cdo-border-subtle:#21262d;
+  --cdo-text:         #e6edf3;
+  --cdo-text-muted:   #8b949e;
+  --cdo-text-faint:   #6e7681;
+  --cdo-accent:       #58a6ff;
+  --cdo-success:      #3fb950;
+  --cdo-warning:      #d29922;
+  --cdo-danger:       #f85149;
+  --cdo-info:         #388bfd;
+  --cdo-purple:       #bc8cff;
+  --cdo-orange:       #ffa657;
+  --cdo-sidebar-width: 200px;
+  --cdo-topnav-height: 52px;
+  --cdo-host-offset: 0px;   /* overridden to 4rem in spa.ts (host app adds 2rem padding top+bottom) */
+}
+
+/* ── Scoped Scrollbar ────────────────────────── */
+.cdo-content::-webkit-scrollbar { width: 5px; }
+.cdo-content::-webkit-scrollbar-track { background: transparent; }
+.cdo-content::-webkit-scrollbar-thumb { background: var(--cdo-border); border-radius: 3px; }
+.cdo-content::-webkit-scrollbar-thumb:hover { background: var(--cdo-text-faint); }
+
+/* ── Animations ──────────────────────────────── */
+@keyframes cdo-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+@keyframes cdo-pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.35; }
+}
+
+.cdo-spin  { animation: cdo-spin 1s linear infinite; }
+.cdo-pulse { animation: cdo-pulse 1.5s ease-in-out infinite; }

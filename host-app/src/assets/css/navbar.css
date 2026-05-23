@@ -1,19 +1,32 @@
 /* ── Navbar ── */
 .wrap-navbar {
-    position: relative;
-    width: 280px;
-    z-index: 10; /* float above full-viewport micro frontends like the 3D office */
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  z-index: 1000;
 }
+
 .navbar {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
   background: var(--color-surface);
   border-bottom: 1px solid var(--color-border);
-    height: 100%;
-    position: relative;
+  height: 60px;
+  padding: 0 1.5rem;
 }
+
+.navbar-brand {
+  display: flex;
+  align-items: center;
+}
+
 .navbar-logo img {
-  width: 100%;
+  height: 36px;
+  width: auto;
 }
 
 .navbar-title {
@@ -26,8 +39,11 @@
 .navbar-links {
   display: flex;
   list-style: none;
-  flex-direction: column;
+  flex-direction: row;
+  align-items: center;
   gap: 0.25rem;
+  padding: 0;
+  margin: 0;
 }
 
 .navbar-link {
@@ -38,6 +54,7 @@
   text-decoration: none;
   font-size: 0.875rem;
   transition: color 0.15s, background 0.15s;
+  white-space: nowrap;
 }
 
 .navbar-link:hover {

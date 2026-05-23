@@ -1,0 +1,128 @@
+<div class="page">
+
+  <!-- Header -->
+  <div class="page-hdr">
+    <h1 class="page-title">Analytics</h1>
+    <p class="page-sub">Infrastructure performance metrics · Last 24 hours</p>
+  </div>
+
+  <!-- KPI row -->
+  <div class="kpi-row">
+    @for (k of kpis; track k.label) {
+      <cdo-kpi-card [kpi]="k"/>
+    }
+  </div>
+
+  <!-- CPU & Memory trend -->
+  <div class="panel">
+    <div class="panel-hdr">
+      <div>
+        <span class="panel-title">CPU & Memory Utilization</span>
+        <span class="panel-sub">Production servers · 24 h</span>
+      </div>
+      <div class="legend-row">
+        <span class="leg-dot" style="background:#58a6ff"></span>
+        <span class="leg-label">CPU</span>
+        <span class="leg-dot" style="background:#bc8cff"></span>
+        <span class="leg-label">Memory</span>
+      </div>
+    </div>
+    <div class="chart-wrap">
+      <canvas #cpuMemCanvas></canvas>
+    </div>
+  </div>
+
+  <!-- Request rate + Uptime heatmap -->
+  <div class="row-2col">
+
+    <div class="panel">
+      <div class="panel-hdr">
+        <div>
+          <span class="panel-title">Request Rate</span>
+          <span class="panel-sub">Requests / min · 24 h</span>
+        </div>
+      </div>
+      <div class="chart-wrap chart-wrap--sm">
+        <canvas #reqCanvas></canvas>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-hdr">
+        <div>
+          <span class="panel-title">Uptime Heatmap</span>
+          <span class="panel-sub">Service availability · Last 30 days</span>
+        </div>
+      </div>
+      <div class="heatmap">
+        @for (row of heatmap; track row.service) {
+          <div class="hm-row">
+            <span class="hm-svc">{{ row.service }}</span>
+            <div class="hm-cells">
+              @for (v of row.days; track $index) {
+                <div class="hm-cell" [style.background]="cellColor(v)" [title]="v + '%'"></div>
+              }
+            </div>
+          </div>
+        }
+        <div class="hm-legend">
+          <span class="hm-leg-item"><span class="hm-leg-dot" style="background:rgba(63,185,80,0.9)"></span>99.95%+</span>
+          <span class="hm-leg-item"><span class="hm-leg-dot" style="background:rgba(63,185,80,0.4)"></span>99.5–99.95%</span>
+          <span class="hm-leg-item"><span class="hm-leg-dot" style="background:rgba(210,153,34,0.7)"></span>99–99.5%</span>
+          <span class="hm-leg-item"><span class="hm-leg-dot" style="background:rgba(248,81,73,0.7)"></span>Below 99%</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Cost table -->
+  <div class="panel">
+    <div class="panel-hdr">
+      <div>
+        <span class="panel-title">Infrastructure Cost Breakdown</span>
+        <span class="panel-sub">Monthly estimate · All services</span>
+      </div>
+      <span class="total-badge">Total ${{ totalCost }}/mo</span>
+    </div>
+    <div class="table-wrap">
+      <table class="cost-table">
+        <thead>
+          <tr>
+            <th>Service</th>
+            <th>Compute</th>
+            <th>Storage</th>
+            <th>Bandwidth</th>
+            <th>Total</th>
+            <th class="col-share">Share</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (item of costs; track item.service) {
+            <tr>
+              <td class="svc-cell">{{ item.service }}</td>
+              <td class="num-cell">${{ item.compute }}</td>
+              <td class="num-cell">${{ item.storage }}</td>
+              <td class="num-cell">${{ item.bandwidth }}</td>
+              <td class="num-cell total-cell">${{ item.total }}</td>
+              <td class="share-cell">
+                <div class="share-bar-bg">
+                  <div class="share-bar-fill" [style.width]="costPct(item.total) + '%'"></div>
+                </div>
+                <span class="share-pct">{{ costPct(item.total) }}%</span>
+              </td>
+            </tr>
+          }
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="4" class="foot-label">Total</td>
+            <td class="foot-val">${{ totalCost }}</td>
+            <td></td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+
+</div>
