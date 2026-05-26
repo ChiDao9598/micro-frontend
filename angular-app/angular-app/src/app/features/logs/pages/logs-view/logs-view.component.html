@@ -1,0 +1,30 @@
+<div class="page">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Logs</h1>
+      <p class="page-sub">Live stream · {{ filtered().length }} entries</p>
+    </div>
+  </div>
+
+  <div class="toolbar">
+    <div class="tab-group">
+      @for (o of levelOpts; track o.value) {
+        <button class="tab" [class.tab--active]="levelFilter() === o.value"
+                (click)="levelFilter.set(o.value)">{{ o.label }}</button>
+      }
+    </div>
+  </div>
+
+  <div class="log-pane">
+    @for (entry of filtered(); track entry.id) {
+      <div class="log-row log-row--{{ entry.level }}">
+        <span class="log-ts">{{ fmtTime(entry.timestamp) }}</span>
+        <span class="log-level log-level--{{ entry.level }}">{{ entry.level }}</span>
+        <span class="log-svc">{{ entry.service }}</span>
+        <span class="log-msg">{{ entry.message }}</span>
+      </div>
+    } @empty {
+      <div class="empty">No log entries match the current filter.</div>
+    }
+  </div>
+</div>

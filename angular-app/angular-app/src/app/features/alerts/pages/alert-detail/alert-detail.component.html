@@ -1,0 +1,72 @@
+@if (loading()) {
+  <div class="state-msg">Loading…</div>
+} @else if (!alert()) {
+  <div class="not-found">
+    <p>Alert not found.</p>
+    <a routerLink="../" class="back-link">← Back to alerts</a>
+  </div>
+} @else {
+  <div class="page">
+
+    <!-- Header -->
+    <div class="page-header">
+      <a routerLink="../" class="back-link">
+        <cdo-icon name="arrow-left" [size]="14"/>Back to alerts
+      </a>
+      <div class="header-main">
+        <div class="header-title">
+          <span class="sev-pill sev-pill--{{ alert()!.severity }}">{{ alert()!.severity.toUpperCase() }}</span>
+          <h1 class="alert-title">{{ alert()!.title }}</h1>
+          <cdo-status-badge [status]="alert()!.status"/>
+        </div>
+        <p class="alert-time">{{ formatDate(alert()!.timestamp) }} · {{ ago(alert()!.timestamp) }}</p>
+      </div>
+    </div>
+
+    <!-- Description card -->
+    <div class="detail-card">
+      <div class="detail-card-title">Description</div>
+      <p class="detail-desc">{{ alert()!.description }}</p>
+    </div>
+
+    <!-- Info grid -->
+    <div class="info-grid">
+
+      <div class="info-card">
+        <div class="info-card-title">Alert Details</div>
+        <div class="info-row">
+          <span class="info-key">Alert ID</span>
+          <span class="info-val mono">{{ alert()!.id }}</span>
+        </div>
+        <div class="info-row">
+          <span class="info-key">Source</span>
+          <span class="info-val mono">{{ alert()!.source }}</span>
+        </div>
+        <div class="info-row">
+          <span class="info-key">Severity</span>
+          <span class="info-val">
+            <span class="sev-pill sev-pill--{{ alert()!.severity }}">{{ alert()!.severity.toUpperCase() }}</span>
+          </span>
+        </div>
+        <div class="info-row">
+          <span class="info-key">Status</span>
+          <span class="info-val"><cdo-status-badge [status]="alert()!.status"/></span>
+        </div>
+      </div>
+
+      <div class="info-card">
+        <div class="info-card-title">Timing</div>
+        <div class="info-row">
+          <span class="info-key">Triggered</span>
+          <span class="info-val">{{ formatDate(alert()!.timestamp) }}</span>
+        </div>
+        <div class="info-row">
+          <span class="info-key">Time Ago</span>
+          <span class="info-val">{{ ago(alert()!.timestamp) }}</span>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+}

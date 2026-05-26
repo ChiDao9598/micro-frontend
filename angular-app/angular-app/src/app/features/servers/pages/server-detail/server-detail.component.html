@@ -1,0 +1,123 @@
+@if (loading()) {
+  <div class="state-msg">Loading…</div>
+} @else if (!server()) {
+  <div class="not-found">
+    <p>Server not found.</p>
+    <a routerLink="../" class="back-link">← Back to servers</a>
+  </div>
+} @else {
+  <div class="page">
+
+    <!-- Header -->
+    <div class="page-header">
+      <a routerLink="../" class="back-link">
+        <cdo-icon name="arrow-left" [size]="14"/>Back to servers
+      </a>
+      <div class="header-main">
+        <div class="header-title">
+          <h1 class="server-name">{{ server()!.name }}</h1>
+          <cdo-status-badge [status]="server()!.status"/>
+        </div>
+        <p class="server-ip">{{ server()!.ipAddress }} · {{ server()!.region }}</p>
+      </div>
+    </div>
+
+    <!-- Metric gauges -->
+    <div class="metric-grid">
+
+      <div class="metric-card">
+        <div class="metric-label">CPU Usage</div>
+        <div class="metric-value metric-value--{{ barColor(server()!.cpu) }}">{{ server()!.cpu }}%</div>
+        <div class="gauge-track">
+          <div class="gauge-fill gauge-fill--{{ barColor(server()!.cpu) }}"
+               [style.width.%]="server()!.cpu"></div>
+        </div>
+        <div class="metric-hint">
+          @if (server()!.cpu > 85) { Critical threshold exceeded }
+          @else if (server()!.cpu > 70) { Elevated — monitor closely }
+          @else { Normal range }
+        </div>
+      </div>
+
+      <div class="metric-card">
+        <div class="metric-label">Memory Usage</div>
+        <div class="metric-value metric-value--{{ barColor(server()!.memory) }}">{{ server()!.memory }}%</div>
+        <div class="gauge-track">
+          <div class="gauge-fill gauge-fill--{{ barColor(server()!.memory) }}"
+               [style.width.%]="server()!.memory"></div>
+        </div>
+        <div class="metric-hint">
+          @if (server()!.memory > 85) { Critical threshold exceeded }
+          @else if (server()!.memory > 70) { Elevated — monitor closely }
+          @else { Normal range }
+        </div>
+      </div>
+
+      <div class="metric-card">
+        <div class="metric-label">Uptime</div>
+        <div class="metric-value metric-value--ok">{{ server()!.uptime }}%</div>
+        <div class="gauge-track">
+          <div class="gauge-fill gauge-fill--ok" [style.width.%]="server()!.uptime"></div>
+        </div>
+        <div class="metric-hint">Last 30 days</div>
+      </div>
+
+    </div>
+
+    <!-- Info cards row -->
+    <div class="info-grid">
+
+      <div class="info-card">
+        <div class="info-card-title">Server Info</div>
+        <div class="info-row">
+          <span class="info-key">Name</span>
+          <span class="info-val mono">{{ server()!.name }}</span>
+        </div>
+        <div class="info-row">
+          <span class="info-key">IP Address</span>
+          <span class="info-val mono">{{ server()!.ipAddress }}</span>
+        </div>
+        <div class="info-row">
+          <span class="info-key">Region</span>
+          <span class="info-val">{{ server()!.region }}</span>
+        </div>
+        <div class="info-row">
+          <span class="info-key">OS</span>
+          <span class="info-val">{{ server()!.os }}</span>
+        </div>
+        <div class="info-row">
+          <span class="info-key">Environment</span>
+          <span class="info-val">
+            <span class="env-chip env-chip--{{ server()!.environment }}">{{ server()!.environment }}</span>
+          </span>
+        </div>
+      </div>
+
+      <div class="info-card">
+        <div class="info-card-title">Health Status</div>
+        <div class="info-row">
+          <span class="info-key">Status</span>
+          <span class="info-val"><cdo-status-badge [status]="server()!.status"/></span>
+        </div>
+        <div class="info-row">
+          <span class="info-key">Last Checked</span>
+          <span class="info-val">{{ formatDate(server()!.lastChecked) }}</span>
+        </div>
+        <div class="info-row">
+          <span class="info-key">CPU</span>
+          <span class="info-val metric-inline metric-inline--{{ barColor(server()!.cpu) }}">{{ server()!.cpu }}%</span>
+        </div>
+        <div class="info-row">
+          <span class="info-key">Memory</span>
+          <span class="info-val metric-inline metric-inline--{{ barColor(server()!.memory) }}">{{ server()!.memory }}%</span>
+        </div>
+        <div class="info-row">
+          <span class="info-key">Uptime</span>
+          <span class="info-val uptime">{{ server()!.uptime }}%</span>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+}

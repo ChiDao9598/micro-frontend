@@ -1,0 +1,104 @@
+<div class="page">
+
+  <!-- Header -->
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Servers</h1>
+      <p class="page-sub">{{ filtered().length }} of {{ servers().length }} servers</p>
+    </div>
+  </div>
+
+  @if (loading()) {
+    <div class="state-msg">Loading servers…</div>
+  } @else if (error()) {
+    <div class="state-msg state-msg--error">{{ error() }}</div>
+  } @else {
+
+    <!-- Filters -->
+    <div class="filters">
+      <div class="search-box" [class.search-box--focus]="searchFocus()">
+        <cdo-icon name="magnifying-glass" [size]="13" class="search-icon"/>
+        <input class="search-input" type="text" placeholder="Search by name or region…"
+               [value]="query()"
+               (input)="query.set($any($event.target).value)"
+               (focus)="searchFocus.set(true)"
+               (blur)="searchFocus.set(false)"/>
+        @if (query()) {
+          <button class="search-clear" (click)="query.set('')">
+            <cdo-icon name="x-mark" [size]="12"/>
+          </button>
+        }
+      </div>
+
+      <div class="tab-group">
+        @for (o of envOpts; track o.value) {
+          <button class="tab" [class.tab--active]="env() === o.value"
+                  (click)="env.set(o.value)">{{ o.label }}</button>
+        }
+      </div>
+
+      <div class="tab-group">
+        @for (o of statusOpts; track o.value) {
+          <button class="tab" [class.tab--active]="status() === o.value"
+                  (click)="status.set(o.value)">{{ o.label }}</button>
+        }
+      </div>
+    </div>
+
+    <!-- Table -->
+    <div class="table-wrap">
+      <table class="tbl">
+        <thead>
+          <tr>
+            <th>Name</th><th>Status</th>
+            <th>CPU</th><th>Memory</th>
+            <th>Uptime</th><th>Region</th><th>Environment</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (s of filtered(); track s.id) {
+            <tr class="tbl-row tbl-row--link" [routerLink]="[s.id]">
+              <td class="cell-name">
+                <span class="mono">{{ s.name }}</span>
+                <span class="ip">{{ s.ipAddress }}</span>
+              </td>
+              <td><cdo-status-badge [status]="s.status"/></td>
+              <td>
+                <div class="metric">
+                  <span class="metric-val"
+                        [class.metric-val--warn]="s.cpu > 70"
+                        [class.metric-val--crit]="s.cpu > 85">{{ s.cpu }}%</span>
+                  <div class="bar">
+                    <div class="bar-fill"
+                         [style.width.%]="s.cpu"
+                         [class.bar-fill--warn]="s.cpu > 70"
+                         [class.bar-fill--crit]="s.cpu > 85"></div>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <div class="metric">
+                  <span class="metric-val"
+                        [class.metric-val--warn]="s.memory > 70"
+                        [class.metric-val--crit]="s.memory > 85">{{ s.memory }}%</span>
+                  <div class="bar">
+                    <div class="bar-fill"
+                         [style.width.%]="s.memory"
+                         [class.bar-fill--warn]="s.memory > 70"
+                         [class.bar-fill--crit]="s.memory > 85"></div>
+                  </div>
+                </div>
+              </td>
+              <td class="uptime">{{ s.uptime }}%</td>
+              <td class="region">{{ s.region }}</td>
+              <td><span class="env-chip env-chip--{{ s.environment }}">{{ s.environment }}</span></td>
+            </tr>
+          } @empty {
+            <tr><td colspan="7" class="tbl-empty">No servers match your filters</td></tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
+  }
+</div>

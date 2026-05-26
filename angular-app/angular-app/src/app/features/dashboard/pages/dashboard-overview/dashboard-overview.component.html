@@ -1,0 +1,98 @@
+<div class="page">
+
+  <!-- Header -->
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Overview</h1>
+      <p class="page-sub">Infrastructure status · Updated just now</p>
+    </div>
+    <button class="btn-secondary" (click)="load()">
+      <cdo-icon name="arrow-path" [size]="13"/>Refresh
+    </button>
+  </div>
+
+  <!-- KPI row -->
+  <div class="kpi-grid">
+    @for (k of kpis(); track k.label) { <cdo-kpi-card [kpi]="k"/> }
+  </div>
+
+  <!-- Mid row -->
+  <div class="mid-row">
+
+    <!-- System health -->
+    <div class="card">
+      <div class="card-hdr">
+        <span class="card-title">System Health</span>
+        <span class="card-meta">{{ totalServers() }} servers</span>
+      </div>
+      <div class="card-body">
+        @for (g of healthGroups(); track g.name) {
+          <div class="health-row">
+            <span class="health-dot health-dot--{{ g.status }}"></span>
+            <span class="health-name">{{ g.name }}</span>
+            <span class="health-count">{{ g.count }}</span>
+            <cdo-status-badge [status]="g.status"/>
+          </div>
+        }
+      </div>
+    </div>
+
+    <!-- Recent deployments -->
+    <div class="card">
+      <div class="card-hdr">
+        <span class="card-title">Recent Deployments</span>
+        <a [routerLink]="['../deployments']" class="card-link">View all →</a>
+      </div>
+      <div class="card-body">
+        @for (d of recentDeployments(); track d.id) {
+          <div class="deploy-row">
+            <span class="deploy-icon" [ngClass]="deployIconClass(d.status)">
+              @switch (d.status) {
+                @case ('success')     { <cdo-icon name="check-circle"         [size]="15"/> }
+                @case ('failed')      { <cdo-icon name="x-circle"             [size]="15"/> }
+                @case ('in-progress') { <cdo-icon name="arrow-path"           [size]="15" class="cdo-spin"/> }
+                @case ('rolled-back') { <cdo-icon name="exclamation-triangle" [size]="15"/> }
+                @default              { <cdo-icon name="clock"                [size]="15"/> }
+              }
+            </span>
+            <div class="deploy-info">
+              <span class="deploy-svc">{{ d.service }}</span>
+              <span class="deploy-ver">{{ d.version }}</span>
+            </div>
+            <div class="deploy-end">
+              <span class="env-chip env-chip--{{ d.environment }}">{{ d.environment }}</span>
+              <span class="txt-faint txt-xs">{{ ago(d.startTime) }}</span>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+
+  <!-- Recent alerts -->
+  <div class="card">
+    <div class="card-hdr">
+      <span class="card-title">Recent Alerts</span>
+      <div style="display:flex;align-items:center;gap:10px">
+        <span class="critical-pill">{{ criticalCount() }} critical</span>
+        <a [routerLink]="['../alerts']" class="card-link">View all →</a>
+      </div>
+    </div>
+    <div class="card-body card-body--flush">
+      @for (a of recentAlerts(); track a.id) {
+        <div class="alert-row alert-row--{{ a.severity }}">
+          <span class="alert-bar"></span>
+          <div class="alert-info">
+            <span class="alert-title">{{ a.title }}</span>
+            <span class="alert-src">{{ a.source }}</span>
+          </div>
+          <div class="alert-end">
+            <span class="sev-pill sev-pill--{{ a.severity }}">{{ a.severity.toUpperCase() }}</span>
+            <span class="txt-faint txt-xs">{{ ago(a.timestamp) }}</span>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+
+</div>

@@ -1,0 +1,41 @@
+<div class="page">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Alerts</h1>
+      <p class="page-sub">{{ filtered().length }} alerts · <span class="txt-danger">{{ criticalCount() }} critical</span></p>
+    </div>
+  </div>
+
+  <div class="tab-group">
+    @for (o of statusOpts; track o.value) {
+      <button class="tab" [class.tab--active]="statusFilter() === o.value"
+              (click)="statusFilter.set(o.value)">
+        {{ o.label }}
+      </button>
+    }
+  </div>
+
+  <div class="alert-list">
+    @for (a of filtered(); track a.id) {
+      <div class="alert-card alert-card--{{ a.severity }} alert-card--link" [routerLink]="[a.id]">
+        <div class="alert-bar"></div>
+        <div class="alert-body">
+          <div class="alert-top">
+            <span class="alert-title">{{ a.title }}</span>
+            <div class="alert-badges">
+              <span class="sev-pill sev-pill--{{ a.severity }}">{{ a.severity.toUpperCase() }}</span>
+              <cdo-status-badge [status]="a.status"/>
+            </div>
+          </div>
+          <p class="alert-desc">{{ a.description }}</p>
+          <div class="alert-meta">
+            <span class="source">Source: <code>{{ a.source }}</code></span>
+            <span class="ts">{{ ago(a.timestamp) }}</span>
+          </div>
+        </div>
+      </div>
+    } @empty {
+      <div class="empty">No alerts match the current filter.</div>
+    }
+  </div>
+</div>

@@ -64,6 +64,12 @@ import { Component, Input } from '@angular/core';
         @case ('arrow-trending-down') {
           <path d="M2.25 6L9 12.75l4.306-4.307a11.95 11.95 0 015.814 5.519l2.74 1.22m0 0l-5.94 2.28m5.94-2.28l-2.28-5.941"/>
         }
+        @case ('arrow-right-on-rectangle') {
+          <path d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75"/>
+        }
+        @case ('arrow-left') {
+          <path d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"/>
+        }
       }
     </svg>
   `,

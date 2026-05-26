@@ -1,0 +1,45 @@
+<header class="topnav">
+  <button class="topnav__menu" (click)="menuClick.emit()" aria-label="Toggle sidebar">
+    <cdo-icon name="bars-3" [size]="18"/>
+  </button>
+
+  <div class="topnav__search">
+    <cdo-icon name="magnifying-glass" [size]="13" class="topnav__search-icon"/>
+    <input class="topnav__search-input" type="text"
+           placeholder="Search resources…" readonly/>
+    <kbd class="topnav__kbd">⌘K</kbd>
+  </div>
+
+  <div class="topnav__actions">
+    <button class="topnav__icon-btn" aria-label="Alerts">
+      <cdo-icon name="bell" [size]="16"/>
+      <span class="topnav__dot"></span>
+    </button>
+
+    <span class="topnav__divider"></span>
+
+    <div class="topnav__user-wrap">
+      <button class="topnav__user" (click)="menuOpen.set(!menuOpen())">
+        <span class="topnav__avatar">{{ initials() }}</span>
+        <span class="topnav__username">{{ displayName() }}</span>
+        <cdo-icon name="chevron-down" [size]="11"/>
+      </button>
+
+      @if (menuOpen()) {
+        <div class="topnav__dropdown">
+          <div class="topnav__dropdown-email">{{ email() }}</div>
+          <div class="topnav__dropdown-divider"></div>
+          <button class="topnav__dropdown-item topnav__dropdown-item--danger"
+                  (click)="doLogout()">
+            <cdo-icon name="arrow-right-on-rectangle" [size]="13"/>
+            Sign out
+          </button>
+        </div>
+      }
+    </div>
+  </div>
+</header>
+
+@if (menuOpen()) {
+  <div class="topnav__backdrop" (click)="menuOpen.set(false)"></div>
+}

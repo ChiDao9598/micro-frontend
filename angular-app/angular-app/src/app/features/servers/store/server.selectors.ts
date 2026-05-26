@@ -5,7 +5,9 @@ export const selectServerState = createFeatureSelector<ServerState>('servers');
 
 const { selectAll, selectTotal } = serverAdapter.getSelectors();
 
-export const selectAllServers   = createSelector(selectServerState, selectAll);
-export const selectServersCount = createSelector(selectServerState, selectTotal);
+export const selectAllServers     = createSelector(selectServerState, selectAll);
+export const selectServersCount   = createSelector(selectServerState, selectTotal);
 export const selectServersLoading = createSelector(selectServerState, s => s.loading);
 export const selectServersError   = createSelector(selectServerState, s => s.error);
+export const selectServerById     = (id: string) =>
+  createSelector(selectServerState, state => state.entities[id] ?? null);

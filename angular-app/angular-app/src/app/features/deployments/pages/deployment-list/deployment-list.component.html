@@ -1,0 +1,49 @@
+<div class="page">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Deployments</h1>
+      <p class="page-sub">{{ filtered().length }} of {{ deployments().length }} deployments</p>
+    </div>
+  </div>
+
+  @if (loading()) {
+    <div class="state-msg">Loading deployments…</div>
+  } @else if (error()) {
+    <div class="state-msg state-msg--error">{{ error() }}</div>
+  } @else {
+
+    <div class="tab-group">
+      @for (o of statusOpts; track o.value) {
+        <button class="tab" [class.tab--active]="statusFilter() === o.value"
+                (click)="statusFilter.set(o.value)">{{ o.label }}</button>
+      }
+    </div>
+
+    <div class="table-wrap">
+      <table class="tbl">
+        <thead>
+          <tr>
+            <th>Service</th><th>Version</th><th>Environment</th>
+            <th>Status</th><th>Deployed By</th><th>Started</th><th>Duration</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (d of filtered(); track d.id) {
+            <tr class="tbl-row tbl-row--link" [routerLink]="[d.id]">
+              <td class="svc">{{ d.service }}</td>
+              <td class="mono">{{ d.version }}</td>
+              <td><span class="env-chip env-chip--{{ d.environment }}">{{ d.environment }}</span></td>
+              <td><cdo-status-badge [status]="d.status"/></td>
+              <td class="by">{{ d.deployedBy }}</td>
+              <td class="ts">{{ ago(d.startTime) }}</td>
+              <td class="dur">{{ d.duration ? d.duration + 's' : '—' }}</td>
+            </tr>
+          } @empty {
+            <tr><td colspan="7" class="tbl-empty">No deployments match the current filter.</td></tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
+  }
+</div>

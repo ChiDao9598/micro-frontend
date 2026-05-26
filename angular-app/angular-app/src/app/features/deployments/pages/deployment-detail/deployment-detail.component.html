@@ -1,0 +1,81 @@
+@if (loading()) {
+  <div class="state-msg">Loading…</div>
+} @else if (!deployment()) {
+  <div class="not-found">
+    <p>Deployment not found.</p>
+    <a routerLink="../" class="back-link">← Back to deployments</a>
+  </div>
+} @else {
+  <div class="page">
+
+    <!-- Header -->
+    <div class="page-header">
+      <a routerLink="../" class="back-link">
+        <cdo-icon name="arrow-left" [size]="14"/>Back to deployments
+      </a>
+      <div class="header-main">
+        <div class="header-title">
+          <h1 class="deploy-service">{{ deployment()!.service }}</h1>
+          <span class="deploy-version mono">{{ deployment()!.version }}</span>
+          <cdo-status-badge [status]="deployment()!.status"/>
+        </div>
+        <p class="deploy-sub">
+          <span class="env-chip env-chip--{{ deployment()!.environment }}">{{ deployment()!.environment }}</span>
+          &nbsp;· Started {{ formatDate(deployment()!.startTime) }}
+        </p>
+      </div>
+    </div>
+
+    <!-- Info grid -->
+    <div class="info-grid">
+
+      <div class="info-card">
+        <div class="info-card-title">Deployment Info</div>
+        <div class="info-row">
+          <span class="info-key">Service</span>
+          <span class="info-val">{{ deployment()!.service }}</span>
+        </div>
+        <div class="info-row">
+          <span class="info-key">Version</span>
+          <span class="info-val mono">{{ deployment()!.version }}</span>
+        </div>
+        <div class="info-row">
+          <span class="info-key">Environment</span>
+          <span class="info-val">
+            <span class="env-chip env-chip--{{ deployment()!.environment }}">{{ deployment()!.environment }}</span>
+          </span>
+        </div>
+        <div class="info-row">
+          <span class="info-key">Deployed By</span>
+          <span class="info-val">{{ deployment()!.deployedBy }}</span>
+        </div>
+        <div class="info-row">
+          <span class="info-key">Status</span>
+          <span class="info-val"><cdo-status-badge [status]="deployment()!.status"/></span>
+        </div>
+      </div>
+
+      <div class="info-card">
+        <div class="info-card-title">Source &amp; Timing</div>
+        <div class="info-row">
+          <span class="info-key">Branch</span>
+          <span class="info-val mono">{{ deployment()!.branch }}</span>
+        </div>
+        <div class="info-row">
+          <span class="info-key">Commit</span>
+          <span class="info-val mono commit">{{ deployment()!.commitHash }}</span>
+        </div>
+        <div class="info-row">
+          <span class="info-key">Started</span>
+          <span class="info-val">{{ formatDate(deployment()!.startTime) }}</span>
+        </div>
+        <div class="info-row">
+          <span class="info-key">Duration</span>
+          <span class="info-val mono">{{ formatDuration(deployment()!.duration) }}</span>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+}

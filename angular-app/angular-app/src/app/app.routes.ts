@@ -25,14 +25,29 @@ export const routes: Routes = [
           .then(m => m.ServerListComponent),
       },
       {
+        path: 'servers/:id',
+        loadComponent: () => import('./features/servers/pages/server-detail/server-detail.component')
+          .then(m => m.ServerDetailComponent),
+      },
+      {
         path: 'deployments',
         loadComponent: () => import('./features/deployments/pages/deployment-list/deployment-list.component')
           .then(m => m.DeploymentListComponent),
       },
       {
+        path: 'deployments/:id',
+        loadComponent: () => import('./features/deployments/pages/deployment-detail/deployment-detail.component')
+          .then(m => m.DeploymentDetailComponent),
+      },
+      {
         path: 'alerts',
         loadComponent: () => import('./features/alerts/pages/alert-list/alert-list.component')
           .then(m => m.AlertListComponent),
+      },
+      {
+        path: 'alerts/:id',
+        loadComponent: () => import('./features/alerts/pages/alert-detail/alert-detail.component')
+          .then(m => m.AlertDetailComponent),
       },
       {
         path: 'logs',
