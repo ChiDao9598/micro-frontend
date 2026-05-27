@@ -1,6 +1,9 @@
-import { Component, inject, OnInit, signal, computed } from '@angular/core';
-import { MockDataService } from '../../../../core/services/mock-data.service';
-import { LogEntry, LogLevel } from '../../../../shared/models';
+import { Component, OnInit, inject, signal, computed } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { Store } from '@ngrx/store';
+import { LogLevel } from '../../../../shared/models';
+import { loadLogs } from '../../store/log.actions';
+import { selectAllLogs } from '../../store/log.selectors';
 
 @Component({
   selector: 'app-logs-view',
@@ -9,9 +12,9 @@ import { LogEntry, LogLevel } from '../../../../shared/models';
   styleUrl: './logs-view.component.css',
 })
 export class LogsViewComponent implements OnInit {
-  private readonly data = inject(MockDataService);
+  private readonly store = inject(Store);
 
-  private allLogs: LogEntry[] = [];
+  private allLogs = toSignal(this.store.select(selectAllLogs), { initialValue: [] });
   levelFilter = signal<LogLevel | 'all'>('all');
 
   readonly levelOpts = [
@@ -23,11 +26,12 @@ export class LogsViewComponent implements OnInit {
   ];
 
   filtered = computed(() => {
+    const logs = this.allLogs();
     const f = this.levelFilter();
-    return f === 'all' ? this.allLogs : this.allLogs.filter(l => l.level === f);
+    return f === 'all' ? logs : logs.filter(l => l.level === f);
   });
 
-  ngOnInit() { this.allLogs = this.data.getLogs(); }
+  ngOnInit() { this.store.dispatch(loadLogs()); }
 
   fmtTime(d: Date): string {
     return d.toLocaleTimeString('en-US', { hour12: false });

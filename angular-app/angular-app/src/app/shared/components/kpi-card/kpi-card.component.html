@@ -1,0 +1,23 @@
+<div class="card">
+  <div class="card__header">
+    <span class="card__label">{{ kpi.label }}</span>
+    <div class="card__dot-wrap"
+         [style.background]="kpi.iconColor + '1a'"
+         [style.border-color]="kpi.iconColor + '40'">
+      <span class="card__dot" [style.background]="kpi.iconColor"></span>
+    </div>
+  </div>
+
+  <div class="card__value">{{ kpi.value }}</div>
+
+  <div class="card__footer">
+    @if (kpi.trend !== undefined) {
+      <span class="card__trend"
+            [class.card__trend--up]="kpi.trend > 0"
+            [class.card__trend--down]="kpi.trend < 0">
+        {{ kpi.trend > 0 ? '↑' : '↓' }} {{ abs(kpi.trend) }}%
+      </span>
+    }
+    <span class="card__subtitle">{{ kpi.subtitle }}</span>
+  </div>
+</div>

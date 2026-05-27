@@ -1,0 +1,14 @@
+@if (mobileOpen()) {
+  <div class="shell-overlay" (click)="mobileOpen.set(false)"></div>
+}
+
+<div class="shell">
+  <app-sidebar [isOpen]="mobileOpen()" (closeSidebar)="mobileOpen.set(false)"/>
+
+  <div class="shell__main">
+    <app-topnav (menuClick)="toggleMobile()"/>
+    <div class="cdo-content shell__content">
+      <router-outlet/>
+    </div>
+  </div>
+</div>

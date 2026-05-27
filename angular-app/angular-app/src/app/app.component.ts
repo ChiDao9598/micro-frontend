@@ -7,7 +7,8 @@ import { initAuth } from './core/auth/store/auth.actions';
   selector: 'app-root',
   standalone: true,
   imports: [RouterOutlet],
-  template: `<router-outlet/>`,
+  templateUrl: './app.component.html',
+  styleUrl: './app.component.css',
 })
 export class AppComponent {
   constructor() {

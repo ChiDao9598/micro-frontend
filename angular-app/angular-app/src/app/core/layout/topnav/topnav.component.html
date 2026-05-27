@@ -11,15 +11,55 @@
   </div>
 
   <div class="topnav__actions">
-    <button class="topnav__icon-btn" aria-label="Alerts">
-      <cdo-icon name="bell" [size]="16"/>
-      <span class="topnav__dot"></span>
-    </button>
+
+    <!-- Notifications -->
+    <div class="topnav__notif-wrap">
+      <button class="topnav__icon-btn" (click)="openNotif()" aria-label="Notifications">
+        <cdo-icon name="bell" [size]="16"/>
+        @if (activeCount() > 0) {
+          <span class="topnav__badge">{{ activeCount() > 9 ? '9+' : activeCount() }}</span>
+        }
+      </button>
+
+      @if (notifOpen()) {
+        <div class="topnav__notif-dropdown">
+          <div class="topnav__notif-hdr">
+            <span class="topnav__notif-hdr-title">Notifications</span>
+            @if (activeCount() > 0) {
+              <span class="topnav__notif-count">{{ activeCount() }} active</span>
+            }
+            <a [routerLink]="['/alerts']" class="topnav__notif-link"
+               (click)="notifOpen.set(false)">View all →</a>
+          </div>
+          @if (activeAlerts().length === 0) {
+            <div class="topnav__notif-empty">No active alerts</div>
+          } @else {
+            @for (a of activeAlerts(); track a.id) {
+              <a [routerLink]="['/alerts', a.id]" class="topnav__notif-item"
+                 (click)="notifOpen.set(false)">
+                <span class="topnav__notif-bar topnav__notif-bar--{{ a.severity }}"></span>
+                <div class="topnav__notif-info">
+                  <span class="topnav__notif-title">{{ a.title }}</span>
+                  <span class="topnav__notif-src">{{ a.source }}</span>
+                </div>
+                <div class="topnav__notif-end">
+                  <span class="topnav__notif-sev topnav__notif-sev--{{ a.severity }}">
+                    {{ a.severity.toUpperCase() }}
+                  </span>
+                  <span class="topnav__notif-time">{{ ago(a.timestamp) }}</span>
+                </div>
+              </a>
+            }
+          }
+        </div>
+      }
+    </div>
 
     <span class="topnav__divider"></span>
 
+    <!-- User menu -->
     <div class="topnav__user-wrap">
-      <button class="topnav__user" (click)="menuOpen.set(!menuOpen())">
+      <button class="topnav__user" (click)="openUser()">
         <span class="topnav__avatar">{{ initials() }}</span>
         <span class="topnav__username">{{ displayName() }}</span>
         <cdo-icon name="chevron-down" [size]="11"/>
@@ -40,6 +80,6 @@
   </div>
 </header>
 
-@if (menuOpen()) {
-  <div class="topnav__backdrop" (click)="menuOpen.set(false)"></div>
+@if (menuOpen() || notifOpen()) {
+  <div class="topnav__backdrop" (click)="closeAll()"></div>
 }
