@@ -58,9 +58,9 @@ body {
 /* ── Framework Cards ── */
 .framework-grid {
   display: grid;
-  grid-template-columns: repeat(3, 220px);
+  grid-template-columns: repeat(auto-fit, minmax(200px, 220px));
   gap: 1rem;
-  justify-self: center;
+  justify-content: center;
 }
 
 .framework-card {

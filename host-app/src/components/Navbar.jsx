@@ -9,6 +9,7 @@ const NAV_ITEMS = [
   { label: 'Vue App',     path: '/vue-app'     },
   { label: 'Angular App', path: '/angular-app' },
   { label: 'Svelte App',  path: '/svelte-app'  },
+  { label: 'Coffee App',  path: '/coffee-app'  },
 ];
 
 export default function Navbar() {

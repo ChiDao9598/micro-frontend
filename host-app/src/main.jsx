@@ -44,6 +44,12 @@ registerApplication({
   activeWhen: ['/svelte-app'],
 });
 
+registerApplication({
+  name: '@portfolio/coffee-app',
+  app: () => import(/* @vite-ignore */ `${import.meta.env.VITE_COFFEE_APP_URL}${import.meta.env.DEV ? '/src/spa.jsx' : '/spa.js'}`),
+  activeWhen: ['/coffee-app'],
+});
+
 // ─────────────────────────────────────────────
 // 3. Start Single-SPA
 // ─────────────────────────────────────────────

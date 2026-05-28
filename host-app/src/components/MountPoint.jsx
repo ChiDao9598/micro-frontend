@@ -33,6 +33,7 @@ export default function MountPoint() {
     { name: 'Vue',     href: '/vue-app',     color: '#42B883', desc: 'Built with Vue 3' },
     { name: 'CloudOps', href: '/angular-app', color: '#DD0031', desc: 'Built with Angular 17' },
     { name: 'Svelte',  href: '/svelte-app',  color: '#FF3E00', desc: 'Built with Svelte' },
+    { name: 'Coffee',  href: '/coffee-app',  color: '#C7924F', desc: 'Built with CoffeeScript + React' },
   ];
 
   return (
