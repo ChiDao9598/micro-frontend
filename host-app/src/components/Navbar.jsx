@@ -5,7 +5,7 @@ import logo from "../assets/images/logo/logo.png";
 
 const NAV_ITEMS = [
   { label: 'Home',         path: '/'            },
-  { label: 'React App',   path: '/react-app'   },
+  { label: 'React App',   path: '/virtual-office-3d'   },
   { label: 'Vue App',     path: '/vue-app'     },
   { label: 'Angular App', path: '/angular-app' },
   { label: 'Svelte App',  path: '/svelte-app'  },

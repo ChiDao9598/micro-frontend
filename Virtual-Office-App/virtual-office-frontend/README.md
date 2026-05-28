@@ -27,7 +27,7 @@ npm run dev   # runs on http://localhost:9001
 Visit `http://localhost:9001` directly — the app runs on its own.
 
 ### Inside the host
-Start the host app on port 9000, then visit `http://localhost:9000/react-app`.
+Start the host app on port 9000, then visit `http://localhost:9000/virtual-office-3d`.
 The host will load this app from `http://localhost:9001`.
 
 ## How it connects to the Host
@@ -36,9 +36,9 @@ In the host app's `src/main.jsx`, this app is already registered:
 
 ```js
 registerApplication({
-  name: '@portfolio/react-app',
+  name: '@portfolio/virtual-office-3d',
   app: () => import('http://localhost:9001/src/spa.jsx'),
-  activeWhen: ['/react-app'],
+  activeWhen: ['/virtual-office-3d'],
 });
 ```
 

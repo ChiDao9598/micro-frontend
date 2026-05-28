@@ -29,9 +29,9 @@ export default function MountPoint() {
   const isHome = path === '/';
 
   const APPS = [
-    { name: 'React',   href: '/react-app',   color: '#61DAFB', desc: 'Built with React 18' },
+    { name: 'Virtual Office 3D',   href: '/virtual-office-3d',   color: '#61DAFB', desc: 'Built with React 18' },
     { name: 'Vue',     href: '/vue-app',     color: '#42B883', desc: 'Built with Vue 3' },
-    { name: 'Angular', href: '/angular-app', color: '#DD0031', desc: 'Built with Angular' },
+    { name: 'CloudOps', href: '/angular-app', color: '#DD0031', desc: 'Built with Angular 17' },
     { name: 'Svelte',  href: '/svelte-app',  color: '#FF3E00', desc: 'Built with Svelte' },
   ];
 

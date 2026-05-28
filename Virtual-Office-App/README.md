@@ -110,7 +110,7 @@ FRONTEND_URL=http://localhost:9001
 # In the host-app directory (../host-app from this folder)
 cd ../../host-app
 npm run dev
-# Navigate to http://localhost:9000/react-app
+# Navigate to http://localhost:9000/virtual-office-3d
 ```
 
 ---

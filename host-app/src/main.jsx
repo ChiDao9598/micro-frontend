@@ -20,10 +20,10 @@ ReactDOM.createRoot(document.getElementById('root')).render(
 // ─────────────────────────────────────────────
 
 registerApplication({
-  name: '@portfolio/react-app',
-  app: () => import(/* @vite-ignore */ `${import.meta.env.VITE_REACT_APP_URL}/spa.js`),
-  // app: () => import(/* @vite-ignore */ `${import.meta.env.VITE_REACT_APP_URL}${import.meta.env.DEV ? '/src/spa.tsx' : '/spa.js'}`),
-  activeWhen: ['/react-app'],
+  name: '@portfolio/virtual-office-3d',
+  // app: () => import(/* @vite-ignore */ `${import.meta.env.VITE_REACT_APP_URL}/spa.js`),
+  app: () => import(/* @vite-ignore */ `${import.meta.env.VITE_REACT_APP_URL}${import.meta.env.DEV ? '/src/spa.tsx' : '/spa.js'}`),
+  activeWhen: ['/virtual-office-3d'],
 });
 
 registerApplication({
