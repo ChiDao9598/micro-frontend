@@ -10,7 +10,7 @@ export default defineConfig({
     react(),
     // serverPort is required — without it the plugin builds
     // "http://localhost:undefined/..." for every asset URL.
-    singleSpaPlugin({ type: "mife", serverPort: 9005 }),
+    singleSpaPlugin({ type: "mife", serverPort: 9005, spaEntryPoints: "src/spa.jsx" }),
     cssInjectedByJsPlugin(),
   ],
   server: {
