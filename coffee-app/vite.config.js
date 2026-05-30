@@ -8,7 +8,9 @@ export default defineConfig({
   plugins: [
     coffee({ jsx: true }),
     react(),
-    singleSpaPlugin({ type: "mife" }),
+    // serverPort is required — without it the plugin builds
+    // "http://localhost:undefined/..." for every asset URL.
+    singleSpaPlugin({ type: "mife", serverPort: 9005 }),
     cssInjectedByJsPlugin(),
   ],
   server: {
