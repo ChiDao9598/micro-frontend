@@ -2,11 +2,12 @@ import React, { useEffect } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import CoffeeCanvas from './components/CoffeeCanvas';
-import img1 from './assets/images/coffee-1.jpg';
-import img2 from './assets/images/coffee-2.webp';
-import img3 from './assets/images/coffee-3.webp';
-import img4 from './assets/images/coffee-4.webp';
-import img5 from './assets/images/coffee-5.webp';
+const BASE = 'https://raw.githubusercontent.com/ChiDao9598/micro-frontend/master/coffee-app/src/assets/images';
+const img1 = `${BASE}/coffee-1.jpg`;
+const img2 = `${BASE}/coffee-2.webp`;
+const img3 = `${BASE}/coffee-3.webp`;
+const img4 = `${BASE}/coffee-4.webp`;
+const img5 = `${BASE}/coffee-5.webp`;
 import './App.css';
 
 gsap.registerPlugin(ScrollTrigger);
